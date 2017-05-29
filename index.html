@@ -1,53 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Angular Friends</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <h1>The <strong>facebook</strong> Friend Machine</h1>
 
-  <div class="friends">
-    <form class="form-inline searchForm" role="form">
-      <div class="form-group">
-        <input class="form-control" placeholder="Search Anything About Your Friends">
+  <head>
+    <title>Angular Friends</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
 
-        <select class="input-medium">
-          <option>Name</option>
-          <option>#Friends</option>
-          <option>City</option>
-          <option>State</option>
-          <option>Country</option>
+  <body ng-app='myApp'>
+
+    <h1>The <strong>facebook</strong> Friend Machine</h1>
+
+    <div class="friends" ng-controller='FriendCtrl'>
+
+      <form class="form-inline searchForm" role="form">
+        <div class="form-group">
+          <input class="form-control" placeholder="Search Name" ng-model="friendFilter.name">
+          <input class="form-control" placeholder="Search state" ng-model="friendFilter.location.state">
+
+          <select class="input-medium" ng-model='sortProp' ng-options='filter.value as filter.label for filter in filters'>
+          <!-- <option value="name">Name</option>
+          <option value="friend_count">#Friends</option>
+          <option value="location.city">City</option>
+          <option value="location.state">State</option>
+          <option value="location.country">Country</option> -->
         </select>
 
-        <select class="input-medium">
+          <select class="input-medium" ng-model="sortDirection">
           <option value="-">Descending</option>
           <option value="+">Ascending</option>
         </select>
-      </div>
-    </form>
+        </div>
+      </form>
 
-    <ul>
-      <li class='friend'>
-        <img class="profile-pic" src='http://placebear.com/50/50.jpg'>
-        <h3>Cali Fornia</h3>
-        <div class="location">
-          Location: New Port Beach, California, United States
-        </div>
-        <div class="status">
-          Status: I hate the snow. I wish I was on the beach right now!!!
-        </div>
-        <div class="num-friends">
-          Friends: 1,367
-        </div>
-      </li>
-    </ul>
-  </div>
+      <ul ng-repeat="friends in friend | filter:friendFilter | orderBy: sortDirection + sortProp">
+        <li class='friend'>
+          <img class="profile-pic" ng-src='{{friends.pic_square}}'>
+          <h3>{{friends.name}}</h3>
+          <div class="location">
+            <p>{{friends.location.city}} {{friends.location.state}}</p>
+          </div>
+          <br>
+          <div class="status">
+            <p>{{friends.status}}</p>
+          </div>
+          <br>
+          <div class="num-friends">
+            <p>{{friends.friend_count}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- your scripts here -->
-</body>
+    <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+    <!-- your scripts here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.js"></script>
+    <script src='app.js'></script>
+    <script src='FriendCtrl.js'></script>
+
+  </body>
+
 </html>
